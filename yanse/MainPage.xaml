@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+             xmlns:vm="clr-namespace:yanse.ViewModels"
+             x:Class="yanse.MainPage"
+             x:DataType="vm:MainPageViewModel">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="0,0" Spacing="0">
+            <Grid HeightRequest="320" MaximumHeightRequest="400" BackgroundColor="{Binding DetectedColor}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="320"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="240"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding CaptureImageCommand, Source={x:Reference Camera}, x:DataType=toolkit:CameraView}" 
+                        CommandParameter="{Binding Token}"
+                        />
+                    <!--<PinchGestureRecognizer PinchUpdated="PinchGestureRecognizer_PinchUpdated" />-->
+                </Grid.GestureRecognizers>
+                <toolkit:CameraView x:Name="Camera" Grid.Column="1" Grid.Row="1"
+                    WidthRequest="240"
+                    HeightRequest="320"
+                    MaximumHeightRequest="320"
+                    Rotation="90"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    CameraFlashMode="{Binding FlashMode}"
+                    SelectedCamera="{Binding SelectedCamera}"
+                    ImageCaptureResolution="{Binding SelectedResolution}"
+                    ZoomFactor="{Binding CurrentZoom}"
+                                    
+                    />
+                <Label Text="{Binding DetectedColor}" Grid.Column="1" Grid.Row="2" />
+                <Button Clicked="ZoomOut" Text="Zoom -" Grid.Column="2"  Grid.Row="2"/>
+                <Button Clicked="ZoomIn" Text="Zoom +" Grid.Column="2"  Grid.Row="1"/>
+            </Grid>
+            
+
+            <!--<Button Command="{Binding StartCameraPreviewCommand, Source={x:Reference Camera}, x:DataType=toolkit:CameraView}"
+                        CommandParameter="{Binding Token}"
+                        Text="StartCameraPreview" />-->
+            <!--<Button Command="{Binding CaptureImageCommand, Source={x:Reference Camera}, x:DataType=toolkit:CameraView}" 
+                        CommandParameter="{Binding Token}"
+                        Text="Capture Image"/>-->
+
+            <Grid RowDefinitions="Auto" BackgroundColor="{Binding UIColor}">
+
+                <VerticalStackLayout Spacing="5" Padding="5" >
+                    <Image
+                Source="{Binding Yanse.HanziFileName}"
+                BackgroundColor="Black"
+                HeightRequest="185"
+                WidthRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="Hanzi with stroke order" />
+                    <Label Text="{Binding Yanse.Pinyin}"
+                           Style="{StaticResource Headline}"
+                           HorizontalTextAlignment="Center"
+                           SemanticProperties.HeadingLevel="Level1"
+                           SemanticProperties.Description="Pinyin"
+                           />
+                    <Label Text="{Binding Yanse.Name}"
+                           Style="{StaticResource SubHeadline}"
+                           HorizontalTextAlignment="Center"
+                           SemanticProperties.HeadingLevel="Level2"
+                           SemanticProperties.Description="English Name"
+                           />
+                    <Label Text="{Binding Yanse.Chinese}"
+                           Style="{StaticResource SubHeadline}"
+                           HorizontalTextAlignment="Center"
+                           SemanticProperties.HeadingLevel="Level2"
+                           SemanticProperties.Description="Mandarin Hanzi"
+                           />
+                    <Label Text="{Binding UIColor}"  />
+                    <!--<Picker 
+                    Title="Available Resolutions"
+                    ItemsSource="{Binding SelectedCamera.SupportedResolutions, FallbackValue=''}"
+                    SelectedItem="{Binding SelectedResolution}" />
+                    <Label x:Name="debugText"/>-->
+
+                </VerticalStackLayout>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
